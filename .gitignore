@@ -1,2 +1,4 @@
 /Servidor/send/*
 /Cliente/receive/*
+!/Servidor/send/README.md
+!/Cliente/receive/README.md
