@@ -7,7 +7,7 @@ import os
 import shutil
 
 # Variables
-host = '127.0.0.1'
+IP = socket.gethostbyname(socket.gethostname())
 port = 8888
 dir = './send/'
 src1 = r'C:/Program Files (x86)/AbarrotesPDV/db/PDVDATA.FDB'
@@ -23,16 +23,16 @@ try:
 except:
     print('No se encontraron los archivos.')
 for file in os.listdir(dir):
+    if file == 'README.md': continue
     if os.path.isfile(os.path.join(dir, file)):
-        files.append(file)
-        
+        files.append(file)      
 
 # Connection
 while True:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((host, port))
+        s.bind((IP, port))
         s.listen()
-        print('Esperando una conección...')
+        print(f'Esperando una conección en la dirección IP: {IP}')
         conn, addr = s.accept()
         with conn:
             print(f'Cliente conectado: {addr}')
@@ -63,7 +63,7 @@ while True:
                         print('Archivo no copiado')
 
                 print('El nombre del archivo: --> ', fname)
-                conn.send(f'Nombre recibido: {fname}'.encode())
+                conn.send(f'Archivo Seleccionado: {fname}'.encode())
 
                 # Enviar datos del archivo
                 print('Leyendo el archivo...')

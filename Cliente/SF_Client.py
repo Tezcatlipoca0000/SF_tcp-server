@@ -6,20 +6,25 @@ import socket
 import sys
 
 # variables
-host = '127.0.0.1'
 port= 8888
 all = False
 some = [] # TO DO
+IP = input('Ingrese la dirección IP del servidor o deje en blanco para conectarse a una red local.\n\n>>>>')
+IP = IP if IP != '' else socket.gethostbyname(socket.gethostname())
 
 # Initial connection to get files
+print(f'\nConectandose con {IP}...')
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((host, port))
+    try:
+        s.connect((IP, port))
+    except socket.gaierror:
+        print('\nNo se pudo establecer la conneción con la dirección IP...\nSaliendo del Programa...\n')
+        sys.exit()
 
     # Saludo inicial
-    print('Solicitando lista de archivos...')
+    print('\n\nIniciando...')
     s.send('archivos'.encode())
     msg = s.recv(1024).decode()
-    print('¡Lista descargada!')
 
 # Solicitar al usuario el nombre del archivo
 names = msg.split(',')
@@ -36,7 +41,7 @@ s) SALIR
 
         Ingrese el numero del archivo correspondiente que desea descargar,
         La letra "t" para descargar TODOS los archivos encontrados
-        O la letra "s" para salir del programa
+        O la letra "s" para salir del programa.
 
         >>>> ''')
     if fname == 's':
@@ -47,32 +52,33 @@ s) SALIR
     try:
         fname = int(fname)
     except ValueError:
-        print('Ingreso Incorrecto...')
+        print('\nIngreso Incorrecto...\n')
         continue
     if fname in range(len(files)):
         fname = files[fname]
         break
     else:
-        print('Ingreso Incorrecto...')
+        print('\nIngreso Incorrecto...\n')
 
 # Define a function that handles the connection
 def connector(fn):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((host, port))
-        print('Conectado con el servidor')
+        s.connect((IP, port))
+        print('Conectado con el Servidor')
 
         # Enviar nombre del archivo
         fh = open(f'./receive/{fn}', 'wb')
         s.send(fn.encode())
         msg = s.recv(1024).decode()
-        print(f'Mensaje del servidor: {msg}')
+        print(f'[SERVIDOR] : {msg}')
+        print('Comenzando la Descarga...')
 
         # Recibir datos del archivo
         data = s.recv(1024)
         while (data):
             fh.write(data)
             data = s.recv(1024)
-        print('¡Datos descargados!')
+        print('¡Datos Descargados!')
 
 # Connect with server
 if (all):
