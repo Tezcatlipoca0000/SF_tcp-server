@@ -11,7 +11,7 @@ Files to send must be copied in the "*send*" folder.
 ###### Client: 
 Receives the files sent by the server. 
 
-Files received will end un in the "*receive*" folder.
+Files received will end up in the "*receive*" folder.
 
 ###### TODO:
 - Client-side:
