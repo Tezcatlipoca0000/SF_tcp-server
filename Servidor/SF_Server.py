@@ -9,7 +9,7 @@ import shutil
 # Variables
 IP = socket.gethostbyname(socket.gethostname())
 port = 8888
-dir = './send/'
+dir = r'C:/Users/casa/Desktop/Server-test/Servidor/send/'
 src1 = r'C:/Program Files (x86)/AbarrotesPDV/db/PDVDATA.FDB'
 src2 = r'C:/Users/casa/Desktop/Provedores Todos.xlsm'
 files = []
