@@ -67,7 +67,7 @@ while True:
 
                 # Enviar datos del archivo
                 print('Leyendo el archivo...')
-                with open(f'./send/{fname}', 'rb') as fh:
+                with open(f'{dir}{fname}', 'rb') as fh:
                     while True:
                         data = fh.read(1024)
                         if not data:
